@@ -8,18 +8,20 @@ import SearchBooks from "./SearchBooks";
 function App() {
   const [books, setBooks] = useState([]);
 
-  const getBooksList = async () => {
-    const res = await BooksAPI.getAll();
-    setBooks(res);
-  };
-
   useEffect(() => {
+    const getBooksList = async () => {
+      const res = await BooksAPI.getAll();
+      setBooks(res);
+    };
     getBooksList();
   }, []);
 
-  const refresh = (shouldRefresh) => {
-    console.log(`should refresh: ${shouldRefresh}`);
-    getBooksList();
+  const refresh = (updatedBook) => {
+    console.log(updatedBook);
+    const updatedBooksList = books.filter((book) => book.id !== updatedBook.id);
+    const updatedBooksList2 = updatedBooksList.concat(updatedBook);
+
+    setBooks(updatedBooksList2);
   };
 
   return (
@@ -27,9 +29,9 @@ function App() {
       <Route
         exact
         path="/"
-        element={<Library books={books} shouldRefresh = {refresh} />}
+        element={<Library books={books} shouldRefresh={refresh} />}
       />
-      <Route path="/search" element={<SearchBooks shouldRefresh = {refresh}/>} />
+      <Route path="/search" element={<SearchBooks shouldRefresh={refresh} />} />
     </Routes>
   );
 }

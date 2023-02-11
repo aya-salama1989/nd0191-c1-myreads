@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Shelf from "./Shelf";
+import PropTypes from "prop-types";
 
 const Library = ({ books, shouldRefresh }) => {
   const shelfsArray = [
@@ -40,6 +41,11 @@ const Library = ({ books, shouldRefresh }) => {
       </div>
     </div>
   );
+};
+
+Library.propTypes = {
+  books: PropTypes.array.isRequired,
+  shouldRefresh: PropTypes.func.isRequired,
 };
 
 export default Library;

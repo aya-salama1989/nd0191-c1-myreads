@@ -1,8 +1,10 @@
 import BookShelfChanger from "./BookShelfChanger";
 import * as BooksAPI from "./BooksAPI.js";
+import PropTypes from "prop-types";
 
 const Book = ({ bookObject, onBookShelfChange }) => {
   //update book callBack
+
   const updateBookShelfCallBack = (updatedBook) => {
     updateBookShelf(updatedBook, updatedBook.shelf);
   };
@@ -11,13 +13,13 @@ const Book = ({ bookObject, onBookShelfChange }) => {
   const updateBookShelf = async (book, newShelf) => {
     const res = await BooksAPI.update(book, newShelf);
     console.log(res);
-    onBookShelfChange(true);
+    onBookShelfChange(book);
   };
 
   let imagePath;
 
   if(bookObject.imageLinks === undefined){
-    imagePath="";
+    imagePath = "";
   }else{
     imagePath = bookObject.imageLinks.smallThumbnail;
   }
@@ -39,9 +41,13 @@ const Book = ({ bookObject, onBookShelfChange }) => {
         />
       </div>
       <div className="book-title">{bookObject.title}</div>
-      <div className="book-authors">{bookObject.authors}</div>
+      <div className="book-authors">{bookObject.authors?.join(", ")}</div>
     </div>
   );
 };
 
+Book.protoTypes = {
+  bookObject: PropTypes.object.isRequired,
+  onBookShelfChange: PropTypes.func.isRequired,
+}
 export default Book;
