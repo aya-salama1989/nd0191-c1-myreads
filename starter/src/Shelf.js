@@ -1,12 +1,13 @@
 import Book from "./Book";
+import PropTypes from "prop-types";
 
 const Shelf = ({ shelfObject, booksList, onShelfChanged }) => {
   const shelfBooks = booksList.filter(
     (book) => book.shelf === shelfObject.name
   );
 
-  const onBookShelfChange = (shelfChanged) => {
-    onShelfChanged(shelfChanged);
+  const onBookShelfChange = (updatedBook) => {
+    onShelfChanged(updatedBook);
   };
 
   return (
@@ -27,6 +28,12 @@ const Shelf = ({ shelfObject, booksList, onShelfChanged }) => {
       </div>
     </div>
   );
+};
+
+Shelf.propTypes = {
+  shelfObject: PropTypes.object.isRequired,
+  booksList: PropTypes.array.isRequired,
+  onShelfChanged: PropTypes.func.isRequired,
 };
 
 export default Shelf;

@@ -1,21 +1,21 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const BookShelfChanger = ({ book, updateBookShelfCallBack }) => {
-
   const [updatedBook, setUpdatedBook] = useState(book);
 
   const onShelfChange = (e) => {
-    book.shelf = e.target.value
+    book.shelf = e.target.value;
     console.log(book);
     setUpdatedBook(book);
-    updateBookShelfCallBack(updatedBook)
+    updateBookShelfCallBack(updatedBook);
   };
 
   let currentShelf;
-   if(book.shelf === undefined){
-    currentShelf= "none";
-  }else{
-    currentShelf=book.shelf;
+  if (book.shelf === undefined) {
+    currentShelf = "none";
+  } else {
+    currentShelf = book.shelf;
   }
   console.log(currentShelf);
 
@@ -32,6 +32,11 @@ const BookShelfChanger = ({ book, updateBookShelfCallBack }) => {
       </select>
     </div>
   );
+};
+
+BookShelfChanger.propTypes = {
+  book: PropTypes.object.isRequired,
+  updateBookShelfCallBack: PropTypes.func.isRequired,
 };
 
 export default BookShelfChanger;

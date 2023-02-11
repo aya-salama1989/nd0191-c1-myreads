@@ -106,6 +106,14 @@ body,
   padding: 80px 10px 20px;
 }
 
+.search_books_error{
+  padding: 80px 10px 20px;
+}
+
+.search_books_error h1{
+  align-items: center;
+}
+
 /* books grid */
 
 .books-grid {
