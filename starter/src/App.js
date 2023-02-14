@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI.js";
 import Library from "./Library";
 import SearchBooks from "./SearchBooks";
+import BookDetails from "./BookDetails";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -20,7 +21,6 @@ function App() {
     console.log(updatedBook);
     const updatedBooksList = books.filter((book) => book.id !== updatedBook.id);
     const updatedBooksList2 = updatedBooksList.concat(updatedBook);
-
     setBooks(updatedBooksList2);
   };
 
@@ -31,7 +31,14 @@ function App() {
         path="/"
         element={<Library books={books} shouldRefresh={refresh} />}
       />
-      <Route path="/search" element={<SearchBooks shouldRefresh={refresh} />} />
+      <Route
+        path="/search"
+        element={
+          <SearchBooks shouldRefresh={refresh} categorizedBooks={books} />
+        }
+      />
+
+      <Route path="/details:bookId" element={<BookDetails />} />
     </Routes>
   );
 }

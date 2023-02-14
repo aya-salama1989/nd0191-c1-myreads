@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 const BookShelfChanger = ({ book, updateBookShelfCallBack }) => {
+
   const [updatedBook, setUpdatedBook] = useState(book);
 
   const onShelfChange = (e) => {
@@ -11,18 +12,12 @@ const BookShelfChanger = ({ book, updateBookShelfCallBack }) => {
     updateBookShelfCallBack(updatedBook);
   };
 
-  let currentShelf;
-  if (book.shelf === undefined) {
-    currentShelf = "none";
-  } else {
-    currentShelf = book.shelf;
-  }
-  console.log(currentShelf);
 
   return (
     <div className="book-shelf-changer">
-      <select value={currentShelf} onChange={onShelfChange}>
-        <option value="none" disabled>
+     {console.log(book)} 
+      <select value={book.shelf} onChange={onShelfChange}>
+        <option disabled>
           Move to...
         </option>
         <option value="currentlyReading">Currently Reading</option>
