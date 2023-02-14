@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import * as BooksAPI from "./BooksAPI.js";
 import Book from "./Book.js";
-import PropTypes, { nominalTypeHack } from "prop-types";
+import PropTypes from "prop-types";
 
 const SearchBooks = ({ shouldRefresh, categorizedBooks }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -13,26 +13,27 @@ const SearchBooks = ({ shouldRefresh, categorizedBooks }) => {
     const book = categorizedBooks.filter(
       (categorizedBook) => categorizedBook.id === searchBook.id
     );
-    searchBook.shelf = book[0]? book[0].shelf : "none";
+    searchBook.shelf = book[0] ? book[0].shelf : "none";
     return searchBook;
   });
 
   const onSearchKeywordChange = (e) => {
-    const query = e.target.value.trim();
+    const handler = setTimeout(() => {
+      const query = e.target.value.trim();
+      setSearchKeyword(query);
+      if (query.length === 0) {
+        setSearchResults([]);
+        setErrorHandlingMessage('"Empty space"');
+      } else {
+        searchBooks();
+      }
+      clearTimeout(handler);
+    }, 500);
 
-    setSearchKeyword(query);
-    if (query.length === 0) {
-      setSearchResults([]);
-      setErrorHandlingMessage('"Empty space"');
-    } else {
-      searchBooks();
-    }
   };
 
   const searchBooks = async () => {
     const result = await BooksAPI.search(searchKeyword, 100);
-    console.log(result);
-
     if (Array.isArray(result)) {
       setSearchResults(result);
       setErrorHandlingMessage(null);
@@ -49,7 +50,6 @@ const SearchBooks = ({ shouldRefresh, categorizedBooks }) => {
   return (
     <div className="search-books">
       <div className="search-books-bar">
-        {console.log(orderedBooks)}
         <Link className="close-search" to="/">
           Close
         </Link>

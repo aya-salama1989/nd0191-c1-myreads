@@ -18,7 +18,6 @@ function App() {
   }, []);
 
   const refresh = (updatedBook) => {
-    console.log(updatedBook);
     const updatedBooksList = books.filter((book) => book.id !== updatedBook.id);
     const updatedBooksList2 = updatedBooksList.concat(updatedBook);
     setBooks(updatedBooksList2);
