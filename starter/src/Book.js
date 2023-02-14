@@ -1,6 +1,7 @@
 import BookShelfChanger from "./BookShelfChanger";
 import * as BooksAPI from "./BooksAPI.js";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const Book = ({ bookObject, onBookShelfChange }) => {
   //update book callBack
@@ -18,9 +19,9 @@ const Book = ({ bookObject, onBookShelfChange }) => {
 
   let imagePath;
 
-  if(bookObject.imageLinks === undefined){
+  if (bookObject.imageLinks === undefined) {
     imagePath = "";
-  }else{
+  } else {
     imagePath = bookObject.imageLinks.smallThumbnail;
   }
 
@@ -34,7 +35,9 @@ const Book = ({ bookObject, onBookShelfChange }) => {
             height: 193,
             backgroundImage: `url("${imagePath}")`,
           }}
-        ></div>
+        >
+          <Link to = {`/details/${bookObject.id}`} >Details</Link>
+        </div>
         <BookShelfChanger
           book={bookObject}
           updateBookShelfCallBack={updateBookShelfCallBack}
@@ -48,6 +51,6 @@ const Book = ({ bookObject, onBookShelfChange }) => {
 
 Book.protoTypes = {
   bookObject: PropTypes.object.isRequired,
-  onBookShelfChange: PropTypes.func.isRequired,
-}
+  onBookShelfChange: PropTypes.func,
+};
 export default Book;

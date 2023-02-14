@@ -2,21 +2,30 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import * as BooksAPI from "./BooksAPI.js";
 import Book from "./Book.js";
-import PropTypes from "prop-types";
+import PropTypes, { nominalTypeHack } from "prop-types";
 
-const SearchBooks = ({ shouldRefresh }) => {
+const SearchBooks = ({ shouldRefresh, categorizedBooks }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [errorHandlingMessage, setErrorHandlingMessage] = useState(null);
 
+  const orderedBooks = searchResults?.map((searchBook) => {
+    const book = categorizedBooks.filter(
+      (categorizedBook) => categorizedBook.id === searchBook.id
+    );
+    searchBook.shelf = book[0]? book[0].shelf : "none";
+    return searchBook;
+  });
+
   const onSearchKeywordChange = (e) => {
     const query = e.target.value.trim();
+
     setSearchKeyword(query);
     if (query.length === 0) {
       setSearchResults([]);
       setErrorHandlingMessage('"Empty space"');
     } else {
-      searchBooks(query);
+      searchBooks();
     }
   };
 
@@ -40,6 +49,7 @@ const SearchBooks = ({ shouldRefresh }) => {
   return (
     <div className="search-books">
       <div className="search-books-bar">
+        {console.log(orderedBooks)}
         <Link className="close-search" to="/">
           Close
         </Link>
@@ -61,7 +71,7 @@ const SearchBooks = ({ shouldRefresh }) => {
       ) : (
         <div className="search-books-results">
           <ol className="books-grid">
-            {searchResults?.map((book) => (
+            {orderedBooks?.map((book) => (
               <Book
                 key={book.id}
                 bookObject={book}

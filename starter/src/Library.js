@@ -9,8 +9,8 @@ const Library = ({ books, shouldRefresh }) => {
     { id: 2, title: "Read", name: "read" },
   ];
 
-  const onShelfChanged = (shelfShanged) => {
-    shouldRefresh(shelfShanged);
+  const onShelfChanged = (updatedBook) => {
+    shouldRefresh(updatedBook);
   };
 
   return (
